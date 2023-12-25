@@ -1,0 +1,35 @@
+<div class="card mb-4" style="width: 18rem; margin: 10px">
+  <div class="card-img-wrapper">
+    <img
+      src="{{ member.photoUrl || './assets/user.png' }}"
+      alt="{{ member.knownAs }}"
+      class="card-img-top"
+    />
+    <ul class="list-inline member-icons animate text-center">
+      <li class="list-inline-item">
+        <a routerLink="/members/{{ member.userName }}" class="btn btn-primary">
+          <i class="fa fa-user"></i>
+        </a>
+      </li>
+      <li class="list-inline-item">
+        <a class="btn btn-primary">
+          <i class="fa fa-heart"></i>
+        </a>
+      </li>
+      <li class="list-inline-item">
+        <button class="btn btn-primary">
+          <i class="fa fa-envelope"></i>
+        </button>
+      </li>
+    </ul>
+    <div class="card-body">
+      <h5 class="card-title">Card title</h5>
+      <p class="card-text">
+        <i class="fa fa-user mr-2"></i>
+        {{ member.knownAs }}
+      </p>
+      <p href="#">{{ member.city }}</p>
+        
+    </div>
+  </div>
+</div>
