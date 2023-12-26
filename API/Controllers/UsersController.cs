@@ -4,6 +4,7 @@ using API.Data;
 using API.DTOs;
 using API.Entities;
 using API.Extensions;
+using API.Helpers;
 using API.Interfaces;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
@@ -34,14 +35,19 @@ namespace API.Controllers
         }
         [HttpGet]
    
-        public async Task<ActionResult<IEnumerable<MemberDto>>> GetUsers()
+       public async Task<ActionResult<IEnumerable<MemberDto>>> GetUsers([FromQuery] UserParams userParams)
         {
             //  var users = await _userRepository
             //   .GetUsersAsync(); 
             //   var usersToReturn = _mapper.Map<IEnumerable<MemberDto>>(users);
-            var users = await _userRepository.GetMembersAsync();
+            var users = await _userRepository.GetMembersAsync(userParams  );
+            Response.AddPaginationHeader(
+              users.CurrentPage
+            ,users.PageSize,
+           users.TotalCount,
+            users.TotalPages);
               return Ok(users);
-        }
+        } 
       
            [HttpGet("{username}",Name ="GetUser")]
         public  async Task<ActionResult<MemberDto>> GetUser(string username){
@@ -60,7 +66,7 @@ namespace API.Controllers
             if(await _userRepository.SaveAllAsync()) return NoContent();
             return BadRequest("Failes ti update user");
         }
- [HttpPost("add-photo")]
+     [HttpPost("add-photo")]
  public async  Task<ActionResult<PhotoDto>> AddPhoto(IFormFile File)
  {
     var user= await _userRepository.GetUserByUsernameAsync(User.GetUsername());
